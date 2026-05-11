@@ -8,13 +8,17 @@ import {
   CardTitle,
 } from './components/ui/card';
 import { Separator } from './components/ui/separator';
-import { ABILITY_ABBREVIATIONS, getAbilityModifiers } from './rules/abilityModifier';
+import { ABILITY_ABBREVIATIONS, getAbilityModifiers } from './rules/abilityScores';
+import { getArmorClass } from './rules/armorClass';
+import { getInitiative } from './rules/initiative';
 import { useCharacterStore } from './store/character.store';
 
 function App() {
   const character = useCharacterStore((state) => state.characters['1']);
   const modifiers = getAbilityModifiers(character.abilityScores);
   const abilityAbbr = Object.entries(ABILITY_ABBREVIATIONS);
+  const armorClass = getArmorClass(modifiers);
+  const initiative = getInitiative(modifiers);
 
   return (
     <div className="App">
@@ -46,15 +50,23 @@ function App() {
 
           <Separator />
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Hit Points</span>
+          <div className="flex gap-16 items-center">
+            <div className="flex items-center gap-8 text-sm">
+              <span className="text-muted-foreground">HP</span>
               <span>
                 {character.hp.current} / {character.hp.max}
                 {character.hp.temp > 0 && (
                   <span className="text-primary ml-1">(+{character.hp.temp})</span>
                 )}
               </span>
+            </div>
+            <div className="flex items-center gap-8 text-sm">
+              <span className="text-muted-foreground">AC</span>
+              <span>{armorClass}</span>
+            </div>
+            <div className="flex items-center gap-8 text-sm">
+              <span className="text-muted-foreground">Initiative</span>
+              <span>+{initiative}</span>
             </div>
           </div>
 

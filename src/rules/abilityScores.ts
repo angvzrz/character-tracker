@@ -1,4 +1,13 @@
-import type { AbilityScores, Character } from '@/store/character.store';
+import type { AbilityScores } from '@/store/character.store';
+
+export interface AbilityModifiers {
+  strength: number;
+  dexterity: number;
+  intelligence: number;
+  charisma: number;
+  wisdom: number;
+  constitution: number;
+}
 
 export const ABILITY_ABBREVIATIONS: Record<keyof AbilityScores, string> = {
   strength: 'STR',
@@ -9,11 +18,11 @@ export const ABILITY_ABBREVIATIONS: Record<keyof AbilityScores, string> = {
   constitution: 'CON',
 };
 
-function getModifier(score: number): number {
+export function getModifier(score: number): number {
   return Math.floor((score - 10) / 2);
 }
 
-export function getAbilityModifiers(abilityScores: Character['abilityScores']) {
+export function getAbilityModifiers(abilityScores: AbilityScores): AbilityModifiers {
   return {
     strength: getModifier(abilityScores.strength),
     dexterity: getModifier(abilityScores.dexterity),
