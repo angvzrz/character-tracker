@@ -1,3 +1,4 @@
+import type { SkillProficiencies } from '@/rules/skills';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -25,6 +26,7 @@ export interface Character {
     temp: number;
   };
   abilityScores: AbilityScores;
+  skills: SkillProficiencies;
 }
 
 export interface CharacterState {
